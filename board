@@ -1,0 +1,297 @@
+.center{
+    position:absolute;
+    inset:140px;
+    background:#f5f1dd;
+    border:6px solid #000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.logo{
+    font-size:90px;
+    font-weight:900;
+    color:#c40000;
+    background:white;
+    border:6px solid black;
+    padding:15px 40px;
+    transform:rotate(-45deg);
+    box-shadow:8px 8px 0 black;
+} 
+<div id="hud">
+    <div>$1500</div>
+    <div>Turn: Player 1</div>
+    <button>Roll Dice</button>
+</div> 
+#hud{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:white;
+    border:4px solid black;
+    padding:10px 20px;
+    display:flex;
+    gap:20px;
+    z-index:100;
+} 
+<div class="token player1"></div>
+<div class="token player2"></div>
+<div class="token player3"></div>
+<div class="token player4"></div> .token{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    position:absolute;
+    z-index:50;
+}
+
+.player1{background:red;}
+.player2{background:blue;}
+.player3{background:green;}
+.player4{background:gold;} 
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Monopoly Board</title>
+
+<style>
+body{
+    margin:0;
+    background:#222;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    font-family:Arial,sans-serif;
+}
+
+#board{
+    width:900px;
+    height:900px;
+    position:relative;
+    background:#d8d2b8;
+    border:8px solid black;
+}
+
+.space{
+    position:absolute;
+    background:white;
+    border:1px solid black;
+    box-sizing:border-box;
+    font-size:10px;
+    text-align:center;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+}
+
+.bar{
+    height:18px;
+    width:100%;
+}
+
+.corner{
+    font-weight:bold;
+    font-size:18px;
+    justify-content:center;
+    align-items:center;
+}
+
+.center{
+    position:absolute;
+    left:140px;
+    top:140px;
+    width:620px;
+    height:620px;
+    background:#f3eed7;
+    border:4px solid black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.logo{
+    font-size:72px;
+    font-weight:bold;
+    color:red;
+    transform:rotate(-45deg);
+    border:4px solid black;
+    padding:15px 40px;
+    background:white;
+}
+</style>
+</head>
+<body>
+
+<div id="board">
+    <div class="center">
+        <div class="logo">MONOPOLY</div>
+    </div>
+</div>
+
+<script>
+
+const board = document.getElementById("board");
+
+const spaces = [
+"GO",
+"Mediterranean",
+"Chest",
+"Baltic",
+"Tax",
+"Reading RR",
+"Oriental",
+"Chance",
+"Vermont",
+"Connecticut",
+"JAIL",
+
+"St Charles",
+"Electric",
+"States",
+"Virginia",
+"Penn RR",
+"St James",
+"Chest",
+"Tennessee",
+"New York",
+
+"FREE",
+"Kentucky",
+"Chance",
+"Indiana",
+"Illinois",
+"B&O RR",
+"Atlantic",
+"Ventnor",
+"Water Works",
+"Marvin",
+
+"GO TO JAIL",
+"Pacific",
+"NC Ave",
+"Chest",
+"Pennsylvania",
+"Short Line",
+"Chance",
+"Park Place",
+"Luxury Tax",
+"Boardwalk"
+];
+
+const colors = {
+Mediterranean:"#8B4513",
+Baltic:"#8B4513",
+
+Oriental:"#87CEEB",
+Vermont:"#87CEEB",
+Connecticut:"#87CEEB",
+
+StCharles:"#ff69b4",
+States:"#ff69b4",
+Virginia:"#ff69b4",
+
+StJames:"#ffa500",
+Tennessee:"#ffa500",
+NewYork:"#ffa500",
+
+Kentucky:"#ff4444",
+Indiana:"#ff4444",
+Illinois:"#ff4444",
+
+Atlantic:"#ffd700",
+Ventnor:"#ffd700",
+Marvin:"#ffd700",
+
+Pacific:"#32cd32",
+"NCAve":"#32cd32",
+Pennsylvania:"#32cd32",
+
+ParkPlace:"#0033aa",
+Boardwalk:"#0033aa"
+};
+
+for(let i=0;i<40;i++){
+
+    const div = document.createElement("div");
+
+    div.className = "space";
+
+    let x=0;
+    let y=0;
+    let w=62;
+    let h=140;
+
+    if(i===0){
+        x=760;
+        y=760;
+        w=140;
+        h=140;
+        div.classList.add("corner");
+    }
+
+    else if(i<10){
+        x=760-(i*62);
+        y=760;
+    }
+
+    else if(i===10){
+        x=0;
+        y=760;
+        w=140;
+        h=140;
+        div.classList.add("corner");
+    }
+
+    else if(i<20){
+        x=0;
+        y=760-((i-10)*62);
+        w=140;
+        h=62;
+    }
+
+    else if(i===20){
+        x=0;
+        y=0;
+        w=140;
+        h=140;
+        div.classList.add("corner");
+    }
+
+    else if(i<30){
+        x=(i-20)*62;
+        y=0;
+    }
+
+    else if(i===30){
+        x=760;
+        y=0;
+        w=140;
+        h=140;
+        div.classList.add("corner");
+    }
+
+    else{
+        x=760;
+        y=(i-30)*62;
+        w=140;
+        h=62;
+    }
+
+    div.style.left=x+"px";
+    div.style.top=y+"px";
+    div.style.width=w+"px";
+    div.style.height=h+"px";
+
+    div.innerHTML = `<div>${spaces[i]}</div>`;
+
+    board.appendChild(div);
+}
+
+</script>
+
+</body>
+</html>
