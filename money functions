@@ -1,0 +1,202 @@
+// PLAYERS
+
+const players = [
+{
+    id:1,
+    name:"Player 1",
+    money:1500,
+    position:0,
+    properties:[]
+},
+{
+    id:2,
+    name:"Player 2",
+    money:1500,
+    position:0,
+    properties:[]
+}
+];
+
+let currentPlayer = 0; 
+function addMoney(playerIndex, amount){
+
+    players[playerIndex].money += amount;
+
+    updateMoneyDisplay();
+}
+
+function payMoney(playerIndex, amount){
+
+    players[playerIndex].money -= amount;
+
+    if(players[playerIndex].money < 0){
+        players[playerIndex].money = 0;
+    }
+
+    updateMoneyDisplay();
+} 
+function addMoney(playerIndex, amount){
+
+    players[playerIndex].money += amount;
+
+    updateMoneyDisplay();
+}
+
+function payMoney(playerIndex, amount){
+
+    players[playerIndex].money -= amount;
+
+    if(players[playerIndex].money < 0){
+        players[playerIndex].money = 0;
+    }
+
+    updateMoneyDisplay();
+} 
+function movePlayer(playerIndex, spaces){
+
+    const player = players[playerIndex];
+
+    const oldPosition = player.position;
+
+    player.position += spaces;
+
+    if(player.position >= 40){
+
+        player.position -= 40;
+
+        addMoney(playerIndex, 200);
+
+        alert(
+            player.name +
+            " passed GO and collected $200!"
+        );
+    }
+
+    updateMoneyDisplay();
+} 
+<div id="moneyPanel"></div> 
+function updateMoneyDisplay(){
+
+    let html = "";
+
+    players.forEach(player=>{
+
+        html += `
+        <div>
+            ${player.name}
+            : $${player.money}
+        </div>
+        `;
+    });
+
+    document.getElementById(
+        "moneyPanel"
+    ).innerHTML = html;
+} 
+function buyProperty(
+    playerIndex,
+    property
+){
+
+    const player = players[playerIndex];
+
+    if(player.money >= property.price){
+
+        player.money -= property.price;
+
+        player.properties.push(
+            property.name
+        );
+
+        property.owner = playerIndex;
+
+        updateMoneyDisplay();
+
+        alert(
+            player.name +
+            " bought " +
+            property.name
+        );
+    }
+    else{
+
+        alert(
+            "Not enough money!"
+        );
+    }
+} 
+const boardProperties = [
+
+{
+    name:"Mediterranean Avenue",
+    price:60,
+    rent:2,
+    owner:null
+},
+
+{
+    name:"Baltic Avenue",
+    price:60,
+    rent:4,
+    owner:null
+}
+
+]; 
+const boardProperties = [
+
+{
+    name:"Mediterranean Avenue",
+    price:60,
+    rent:2,
+    owner:null
+},
+
+{
+    name:"Baltic Avenue",
+    price:60,
+    rent:4,
+    owner:null
+}
+
+]; 
+function payRent(
+    playerIndex,
+    property
+){
+
+    if(property.owner === null){
+        return;
+    }
+
+    if(property.owner === playerIndex){
+        return;
+    }
+
+    const rent = property.rent;
+
+    payMoney(
+        playerIndex,
+        rent
+    );
+
+    addMoney(
+        property.owner,
+        rent
+    );
+} 
+function checkBankruptcy(
+    playerIndex
+){
+
+    if(
+        players[playerIndex].money <= 0
+    ){
+
+        alert(
+            players[playerIndex].name +
+            " is bankrupt!"
+        );
+
+        // remove player later
+    }
+}
